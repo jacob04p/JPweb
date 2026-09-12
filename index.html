@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jacob Palko — Mechanical Engineer</title>
+  <meta name="description" content="Portfolio of Jacob Palko, mechanical engineering senior at UNC Charlotte. Mechanism design, CAD/FEA, and precision prototyping.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <meta name="theme-color" content="#0B0C0E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <script>
+    /* EDIT: replace G-XXXXXXX with your Google Analytics ID, or delete this block entirely. */
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXX');
+  </script>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- ============ PRELOADER ============ -->
+  <div id="preloader" aria-hidden="true">
+    <div class="preloader-inner">
+      <div class="pre-logo">JP</div>
+      <div class="pre-readout">
+        <span id="pre-status">INITIALIZING KINEMATIC MODEL</span>
+        <span id="pre-pct">000</span>
+      </div>
+      <div class="pre-bar"><div id="pre-fill"></div></div>
+      <div class="pre-meta">
+        <span>UNC CHARLOTTE — MECHANICAL ENGINEERING</span>
+        <span>SHEET 1 OF 1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CUSTOM CURSOR ============ -->
+  <div id="cursor" aria-hidden="true">
+    <div class="cursor-h"></div>
+    <div class="cursor-v"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-label" id="cursor-label"></div>
+  </div>
+
+  <!-- ============ FILM GRAIN ============ -->
+  <div id="grain" aria-hidden="true"></div>
+
+  <!-- ============ WEBGL STAGE ============ -->
+  <div id="stage" aria-hidden="true">
+    <canvas id="webgl"></canvas>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <header id="nav">
+    <a class="nav-brand" href="#top" aria-label="Home">
+      <span class="nav-brand-mark">JP</span>
+      <span class="nav-brand-sub">MECH.ENG</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#about" data-nav>ABOUT</a>
+      <a href="#projects" data-nav>PROJECTS</a>
+      <a href="#experience" data-nav>EXPERIENCE</a>
+      <a href="#contact" data-nav>CONTACT</a>
+      <a class="nav-cta" href="assets/resume-placeholder.pdf" target="_blank" rel="noopener">
+        RÉSUMÉ
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 9L9 1M9 1H2.5M9 1V7.5" stroke="currentColor" stroke-width="1.4"/></svg>
+      </a>
+    </nav>
+    <button id="nav-burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
+  <div id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Mobile">
+      <a href="#about">ABOUT</a>
+      <a href="#projects">PROJECTS</a>
+      <a href="#experience">EXPERIENCE</a>
+      <a href="#contact">CONTACT</a>
+      <a class="mm-cta" href="assets/resume-placeholder.pdf" target="_blank" rel="noopener">RÉSUMÉ ↗</a>
+    </nav>
+    <div class="mm-meta">
+      <span>CHARLOTTE, NC</span>
+      <span>35.3073° N / 80.7310° W</span>
+    </div>
+  </div>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section id="hero">
+      <div class="hud" aria-hidden="true">
+        <div class="hud-corner tl"></div>
+        <div class="hud-corner tr"></div>
+        <div class="hud-corner bl"></div>
+        <div class="hud-corner br"></div>
+        <div class="hud-left"><span>N 35.3073°</span><span>W 80.7310°</span></div>
+        <div class="hud-right">
+          <span>N1 <b id="hud-n1">00.0</b> %</span>
+          <span>N2 <b id="hud-n2">00.0</b> %</span>
+          <span>EGT <b id="hud-egt">0500</b> °C</span>
+          <span>THR <b class="ok">SET</b></span>
+        </div>
+        <div class="hud-tag">DWG NO. JP-000 — INDEX</div>
+      </div>
+
+      <div class="hero-content">
+        <p class="hero-kicker reveal-hero"><span class="kicker-tick"></span>B.S. MECHANICAL ENGINEERING — CLASS OF 2027</p>
+        <h1 class="hero-title">
+          <span class="line"><span class="reveal-hero">JACOB</span></span>
+          <span class="line outline"><span class="reveal-hero">PALKO</span></span>
+        </h1>
+        <p class="hero-sub reveal-hero">
+          Senior at <b>UNC Charlotte</b> building mechanisms that survive contact with reality —
+          drivetrains, structures, and test rigs taken from sketch to shop floor.
+        </p>
+        <div class="hero-cta reveal-hero">
+          <a href="#projects" class="btn btn-solid" data-magnetic>
+            <span>VIEW WORK</span>
+            <span class="btn-index">01</span>
+          </a>
+          <a href="assets/resume-placeholder.pdf" class="btn btn-ghost" data-magnetic target="_blank" rel="noopener">
+            <span>RÉSUMÉ / PDF</span>
+            <span class="btn-index">02</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-foot" aria-hidden="true">
+        <div class="scroll-cue">
+          <span>SCROLL TO DISASSEMBLE</span>
+          <div class="scroll-line"><div class="scroll-dot"></div></div>
+        </div>
+        <div class="hero-hint">DRAG THE MODEL TO ROTATE</div>
+      </div>
+    </section>
+
+    <!-- ============ EXPLODE TRACK ============ -->
+    <section id="mechanism" aria-label="Exploded view of gear assembly">
+      <div class="mech-sticky">
+        <div class="mech-readout">
+          <span>ASSEMBLY STATE</span>
+          <b id="mech-state">ASSEMBLED</b>
+          <div class="mech-meter"><div id="mech-fill"></div></div>
+          <span id="mech-pct">000%</span>
+        </div>
+        <p class="mech-caption">
+          <b>FIG. 01 —</b> HIGH-BYPASS TURBOFAN, EXPLODED VIEW.<br>
+          EVERY PRODUCT SHIPS AS A DRAWING FIRST.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <section id="marquee" aria-hidden="true">
+      <div class="marquee-row">
+        <div class="marquee-track">
+          <span>SOLIDWORKS<em>·</em>FUSION 360<em>·</em>AUTOCAD<em>·</span>
+          <span>SOLIDWORKS<em>·</em>FUSION 360<em>·</em>AUTOCAD<em>·</span>
+        </div>
+      </div>
+      <div class="marquee-row reverse">
+        <div class="marquee-track">
+          <span>GD&amp;T<em>·</em>FEA<em>·</em>CFD<em>·</em>MATLAB<em>·</em>PYTHON<em>·</em>CNC<em>·</em>DFA<em>·</span>
+          <span>GD&amp;T<em>·</em>FEA<em>·</em>CFD<em>·</em>MATLAB<em>·</em>PYTHON<em>·</em>CNC<em>·</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section id="about" class="content-section">
+      <header class="section-head" data-reveal>
+        <span class="section-no">SEC. 01</span>
+        <h2>SCOPE OF WORK</h2>
+        <span class="section-rule"></span>
+      </header>
+
+      <div class="about-grid">
+        <div class="about-copy" data-reveal>
+          <!-- EDIT: your real bio. Keep it specific — numbers beat adjectives. -->
+          <p class="lede">
+            I'm a mechanical engineering senior at UNC Charlotte who treats every
+            problem like a drawing: define the geometry, state the loads, tolerance
+            the result.
+          </p>
+          <p>
+            My work lives where <b>design intent</b> meets <b>manufacturing reality</b> —
+            mechanism synthesis, FEA-driven iteration, and prototypes machined and
+            assembled by hand. I care about drawings a machinist never has to call
+            about, and analyses that hold up under test data.
+          </p>
+          <p>
+            Currently: finishing my capstone, seeking <b>full-time mechanical design
+            roles starting May 2027</b>.
+          </p>
+        </div>
+
+        <aside class="about-spec" data-reveal>
+          <h3 class="spec-title">SPECIFICATION — COURSEWORK</h3>
+          <ul class="spec-table">
+            <!-- EDIT: swap in your actual completed/in-progress courses. -->
+            <li><span>MACHINE DESIGN</span><span>SHIGLEY LV.3</span></li>
+            <li><span>MECHANICS OF MATERIALS</span><span>SHIGLEY LV.2</span></li>
+            <li><span>SYSTEM DYNAMICS + CONTROLS</span><span>OGATA</span></li>
+            <li><span>THERMODYNAMICS II</span><span>CENGEL</span></li>
+            <li><span>HEAT TRANSFER</span><span>INCROPERA</span></li>
+            <li><span>FLUID MECHANICS</span><span>MUNSON</span></li>
+            <li><span>MANUFACTURING PROCESSES</span><span>GROOVER</span></li>
+          </ul>
+          <div class="spec-note">
+            <span class="ok">●</span> ALL PREREQUISITES SATISFIED — SENIOR STANDING
+          </div>
+        </aside>
+      </div>
+
+      <div class="stats" data-reveal>
+        <!-- EDIT: replace with your real numbers. -->
+        <div class="stat"><b data-counter="14">0</b><span>ENGINEERING<br>PROJECTS</span></div>
+        <div class="stat"><b data-counter="1200" data-suffix="+">0</b><span>HOURS IN<br>CAD / FEA</span></div>
+        <div class="stat"><b data-counter="2">0</b><span>INDUSTRY<br>INTERNSHIPS</span></div>
+        <div class="stat"><b data-counter="5">0</b><span>SHOP<br>CERTIFICATIONS</span></div>
+      </div>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <section id="projects" class="content-section">
+      <header class="section-head" data-reveal>
+        <span class="section-no">SEC. 02</span>
+        <h2>SELECTED PROJECTS</h2>
+        <span class="section-rule"></span>
+      </header>
+
+      <div class="project-grid">
+        <!-- EDIT: each card links to a placeholder PDF in assets/projects/.
+             Swap the href, title, blurb and tags with your real work. -->
+        <a class="project-card" href="assets/projects/project-01.pdf" target="_blank" rel="noopener" data-reveal>
+          <div class="pc-head">
+            <span class="pc-dwg">JP-001</span>
+            <span class="pc-rev">REV A</span>
+          </div>
+          <h3>Baja SAE Drivetrain</h3>
+          <p>
+            Redesign of the CVT to wheel-hub chain path. Static and fatigue
+            loading cases on shafts, 11% mass reduction, and a chain tensioner
+            that survived 4 hours of durability testing.
+          </p>
+          <ul class="pc-tags"><li>SOLIDWORKS</li><li>FEA</li><li>fatigue</li></ul>
+          <div class="pc-titleblock">
+            <span><i>SCALE</i>1:2</span><span><i>UNITS</i>IPS</span><span><i>SHEET</i>1/3</span>
+          </div>
+          <span class="pc-view">VIEW SHEET ↗</span>
+        </a>
+
+        <a class="project-card" href="assets/projects/project-02.pdf" target="_blank" rel="noopener" data-reveal>
+          <div class="pc-head">
+            <span class="pc-dwg">JP-002</span>
+            <span class="pc-rev">REV A</span>
+          </div>
+          <h3>FSAE Upright Study</h3>
+          <p>
+            Topology optimization of an aluminum upright under combined braking
+            and cornering loads. 31% stiffness-to-mass gain over the baseline,
+            verified against a nonlinear FEA solution.
+          </p>
+          <ul class="pc-tags"><li>FUSION 360</li><li>topology opt.</li><li>DFM</li></ul>
+          <div class="pc-titleblock">
+            <span><i>SCALE</i>1:1</span><span><i>UNITS</i>SI</span><span><i>SHEET</i>1/4</span>
+          </div>
+          <span class="pc-view">VIEW SHEET ↗</span>
+        </a>
+
+        <a class="project-card" href="assets/projects/project-03.pdf" target="_blank" rel="noopener" data-reveal>
+          <div class="pc-head">
+            <span class="pc-dwg">JP-003</span>
+            <span class="pc-rev">REV A</span>
+          </div>
+          <h3>Heat Exchanger Rig</h3>
+          <p>
+            Instrumented test rig for a compact plate exchanger: thermocouple
+            array, flow loop, and a LabVIEW DAQ pipeline. Measured effectiveness
+            within 4% of ε-NTU prediction.
+          </p>
+          <ul class="pc-tags"><li>LABVIEW</li><li>ε-NTU</li><li>uncertainty</li></ul>
+          <div class="pc-titleblock">
+            <span><i>SCALE</i>N/A</span><span><i>UNITS</i>SI</span><span><i>SHEET</i>1/2</span>
+          </div>
+          <span class="pc-view">VIEW SHEET ↗</span>
+        </a>
+
+        <a class="project-card" href="assets/projects/project-04.pdf" target="_blank" rel="noopener" data-reveal>
+          <div class="pc-head">
+            <span class="pc-dwg">JP-004</span>
+            <span class="pc-rev">REV A</span>
+          </div>
+          <h3>4-DOF Robotic Arm</h3>
+          <p>
+            Desktop-scale arm from first principles: DH-parameter kinematics,
+            closed-loop joint control on custom driver boards, and printed
+            planetary gearboxes at every joint. Repeatable to ±0.6 mm.
+          </p>
+          <ul class="pc-tags"><li>KINEMATICS</li><li>PID</li><li>3DP</li></ul>
+          <div class="pc-titleblock">
+            <span><i>SCALE</i>1:1</span><span><i>UNITS</i>SI</span><span><i>SHEET</i>1/5</span>
+          </div>
+          <span class="pc-view">VIEW SHEET ↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section id="experience" class="content-section">
+      <header class="section-head" data-reveal>
+        <span class="section-no">SEC. 03</span>
+        <h2>EXPERIENCE LOG</h2>
+        <span class="section-rule"></span>
+      </header>
+
+      <ol class="timeline">
+        <!-- EDIT: replace org names, dates, and bullets with your real history. -->
+        <li class="tl-item" data-reveal>
+          <span class="tl-date">2026 — PRESENT</span>
+          <div class="tl-node"></div>
+          <div class="tl-body">
+            <h3>SENIOR DESIGN CAPSTONE — MEGR 4990</h3>
+            <span class="tl-org">UNC CHARLOTTE · WILLIAM STATES LEE COLLEGE OF ENGINEERING</span>
+            <p>
+              Two-semester industry-sponsored project. Requirements, concept
+              trades, detailed design, and a validated prototype delivered to sponsor spec.
+            </p>
+          </div>
+        </li>
+        <li class="tl-item" data-reveal>
+          <span class="tl-date">2025</span>
+          <div class="tl-node"></div>
+          <div class="tl-body">
+            <h3>MANUFACTURING ENGINEERING INTERN</h3>
+            <span class="tl-org">[COMPANY NAME] · CHARLOTTE, NC</span>
+            <p>
+              Supported fixture design and process improvement on CNC lines.
+              Authored 20+ released drawings to ASME Y14.5 and cut setup time on
+              two recurring jobs.
+            </p>
+          </div>
+        </li>
+        <li class="tl-item" data-reveal>
+          <span class="tl-date">2024</span>
+          <div class="tl-node"></div>
+          <div class="tl-body">
+            <h3>UNDERGRADUATE RESEARCH ASSISTANT</h3>
+            <span class="tl-org">UNC CHARLOTTE · [LAB NAME]</span>
+            <p>
+              Built and instrumented test fixtures for graduate research; owned
+              CAD, machining, and test-day data collection.
+            </p>
+          </div>
+        </li>
+        <li class="tl-item" data-reveal>
+          <span class="tl-date">2023</span>
+          <div class="tl-node"></div>
+          <div class="tl-body">
+            <h3>MACHINING LAB ASSISTANT</h3>
+            <span class="tl-org">UNC CHARLOTTE · EPIC FACILITY</span>
+            <p>
+              Supervised safe operation of manual mills, lathes, and CNC
+              equipment; certified students on shop processes.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============ AMBIENT WINDOW ============ -->
+    <section id="window" aria-hidden="true">
+      <p class="window-note">CORE STILL WINDMILLING — <b>T&#8324; = f(fuel flow, not mood)</b></p>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="content-section">
+      <header class="section-head" data-reveal>
+        <span class="section-no">SEC. 04</span>
+        <h2>INTERFACE</h2>
+        <span class="section-rule"></span>
+      </header>
+
+      <div class="contact-wrap" data-reveal>
+        <h3 class="contact-big">
+          LET'S BUILD<br><span class="outline">SOMETHING REAL.</span>
+        </h3>
+        <p class="contact-sub">
+          Open to full-time mechanical design roles, and always open to talking
+          shop about mechanisms, manufacturing, or racing.
+        </p>
+        <div class="contact-actions">
+          <!-- EDIT: your real email + profile URLs. -->
+          <a class="btn btn-solid btn-lg" href="mailto:jpalko@charlotte.edu" data-magnetic>
+            <span>jpalko@charlotte.edu</span>
+          </a>
+        </div>
+        <div class="contact-links">
+          <a href="#" data-magnetic>LINKEDIN ↗</a>
+          <a href="#" data-magnetic>GITHUB ↗</a>
+          <a href="assets/resume-placeholder.pdf" target="_blank" rel="noopener" data-magnetic>RÉSUMÉ ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER TITLE BLOCK ============ -->
+  <footer id="titleblock">
+    <div class="tb-grid">
+      <div class="tb-cell tb-logo">
+        <span class="tb-jp">JP</span>
+        <span>PORTFOLIO OF<br>JACOB PALKO, ME</span>
+      </div>
+      <div class="tb-cell"><i>DRAWN BY</i><b>J. PALKO</b></div>
+      <div class="tb-cell"><i>CHECKED BY</i><b>—</b></div>
+      <div class="tb-cell"><i>MATERIAL</i><b>HTML / CSS / JS</b></div>
+      <div class="tb-cell"><i>FINISH</i><b>MATTE #0B0C0E</b></div>
+      <div class="tb-cell"><i>SCALE</i><b>1:1</b></div>
+      <div class="tb-cell"><i>DATE</i><b>2026.08</b></div>
+      <div class="tb-cell"><i>SHEET</i><b>1 OF 1</b></div>
+      <div class="tb-cell tb-accent"><i>REV</i><b>A</b></div>
+    </div>
+    <div class="tb-fine">
+      <span>© 2026 JACOB PALKO — CHARLOTTE, NC</span>
+      <span>UNLESS OTHERWISE SPECIFIED, ALL DIMENSIONS IN MM / TOLERANCES ±0.1</span>
+      <span>DRAWN IN THE MACHINE SHOP</span>
+    </div>
+  </footer>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
